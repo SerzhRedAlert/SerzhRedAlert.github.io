@@ -1,66 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width-device-width, initial-scale-1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Comics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic equations</title>
     <style>
-        .comics-img {
-            transition: box-shadow 0.3s ease-in-out;
+        h1 {
+            background-color: orange;
+            border-radius: 30px;
+            font-weight: bold;
         }
-    
-        .comics-img:hover {
-            box-shadow: 10px 10px 5px grey;
+        body {
+            font-family: Calibri;
+        }
+        input {
+            min-width: 30px;
+            max-width: 300px;
+            width: 30px;
+            font-size: 50px;
+        }
+        .center {
+            text-align: center;
+            font-size: 50px;
+        }
+        a {
+            font-size: 50px;
+        }
+        [data-custom="BoldFont"] {
+            font-weight: bold;
         }
     </style>
+</head>
+
 <body>
+    <h1 class="center">Калькулятор квадратных уравнений</h1><br><br>
+    <input id="a" onchange="main()" oninput="resizeInputA()"><a>x² + </a>
+    <input id="b" onchange="main()" oninput="resizeInputB()"><a>x + </a>
+    <input id="c" onchange="main()" oninput="resizeInputC()"><a> = 0</a>
+    <br><br><a id="output"></a>
 
-    <!-- START HEADER -->
-    <header class = 'header'>
+    <script>
+        function resizeInput(input){
+            const valueLength = input.value.length;
+      
+            const minWidth = parseFloat(window.getComputedStyle(input).getPropertyValue('min-width'));
+            const maxWidth = parseFloat(window.getComputedStyle(input).getPropertyValue('max-width'));
+            const newWidth = Math.min(maxWidth, Math.max(minWidth, valueLength * 30)); 
+      
+            input.style.width = newWidth + 'px';
+        }
 
-        <div class ='container'>
+        function resizeInputA() {
+            const input = document.getElementById('a');
+            resizeInput(input);
+        }
 
-            <!-- START BLOCK LOGO -->
-            <div class='header-logo'>
-                <img class="logo-ing" src="https://i.ytimg.com/vi/eBQEMkwOzA0/maxresdefault.jpg" width="125px" height="100px"></img>
-                <h1 class='logo-title'>Comics</h1>
-            </div>
-            <!-- END BLOCK LOGO -->
+        function resizeInputB() {
+            const input = document.getElementById('b');
+            resizeInput(input);
+        }
 
-            <!--START BLOCK MENU-->
-            <div class = 'header-menu'>
-                <ul class ='menu'>
-                    <li class = 'menu-item'>
-                        <a class = 'menu-link' href='#'>Home</a>
-                    </li>
-                    <li class = 'menu-item'>
-                        <a class='senu-link' href='#'>About</a>
-                    </li>
-                    <li class = 'menu-item'>
-                        <a class='menu-link' href='#metka'>Products</a>
-                    </li>
-                </ul>
-            </div>
-            <!--END BLOCK MENU-->
+        function resizeInputC() {
+            const input = document.getElementById('c');
+            resizeInput(input);
+        }
+
+        function main() {
+            var d;
+            var a = 0, b = 0, c = 0;
+            a = document.getElementById("a").value;
+            b = document.getElementById("b").value;
+            c = document.getElementById("c").value;
+            let ans = document.getElementById("output");
             
-            <div class = 'products'>
-                <a class = 'home-link' href='#'>Home</a> &#x2192 <a href='#'>Products</a>
-            </div>
-            
-            <h1 class='comics-products'>Featured Comics Products to Show</h1>
+            if (a == 0 && b == 0 && c == 0) {
+                ans.textContent = "x ∈ любому числу, т.к. если 0x² + 0x + 0 = 0, значит можно подставить любые значения x";
+                return;
+            }
 
-            <img class="comics-img" src="https://takapulta.ru/wp-content/uploads/2021/05/rik-i-morti.jpg" width="300px" height="500px"></img>
+            if (a != 0 && b == 0 && c == 0) {
+                ans.textContent = "x = 1, т.к. если a ≠ 0, b = 0, c = 0, то получается уравнение ax² = 0, корень для которого может быть равен только 0";
+                return;
+            }
 
-            <div class = 'Rick-and-Morty'>
-                <h3 class='comics-title'>Rick and Morty</h3>
-                <a>You can by this comics in our offline stores or order with delievery</a><br>
-                <a class='details-link' href="#">View Details</a><br>
-                <a>Copiright 2023 ALL right reserved By Adult Swim</a>
-            </div>
+            if (a == 0 && b != 0 && c == 0) {
+                ans.textContent = "x = 1, т.к. если a = 0, b ≠ 0, c = 0, то получается уравнение bx = 0, корень для которого может быть равен только 0";
+                return;
+            }
 
-        </div>
-        
-    </header>
-    <!-- END HEADER -->
+            if (a == 0 && b != 0 && c != 0) {
+                var x = -c / b;
+                ans.textContent = "x = " + x.toString() + " т.к. если a = 0, b ≠ 0 и c ≠ 0, то можно воспользоваться формулой x = -c : b";
+                return;
+            }
+
+            if (a == 0 && b == 0 && c != 0) {
+                ans.textContent = "Корней нет, т.к. если c = 0, то равенство 0x² + 0x + c = 0 не выполняется";
+                return;
+            }
+ 
+            d = (b * b) - (4 * a * c);
+
+            if (d < 0) {
+                ans.textContent = "D = " + d.toString() + "; Корней нет, т.к. дескриминант отрицательный";
+                return;
+            }
+
+            if (d == 0) {
+                var x = -b / (2 * a);
+                ans.textContent = x.toString();
+                return;
+            }
+
+            if (d > 0) {
+                x1 = (-b + Math.sqrt(d)) / (2 * a);
+                x2 = (-b - Math.sqrt(d)) / (2 * a);
+
+                var mx1 = Math.min(x1,x2);
+                var mx2 = Math.max(x1,x2);
+
+                let sq = "d = " + d + "; x1 = " + mx1.toString() + "; x2 = " + mx2.toString();
+                ans.textContent = sq;
+            }
+        }
+
+    </script>
+
+    <br><br>
+    <a data-custom="BoldFont">Структура квадратных уравнений</a><br><br>
+    <a>Квадратные уравнения имеют вид: a*x² + b*x + c = 0, где a, b и c - коэффициенты, a ≠ 0</a><br><br>
+    <a data-custom="BoldFont">Решение квадратных уравнений через дескриминант</a><br><br>
+    <a>Дескриминант вычисляется по формуле D = b² - 4*a*c. Можно выделить три случая:</a><br>
+    <a data-custom="BoldFont">1. D < 0</a><br>
+    <a>В этом случае уравнение не имеет корней</a><br>
+    <a data-custom="BoldFont">2. D = 0</a><br>
+    <a>Если дескриминант равен нулю, квадратное уравнение имеет одно решение по формуле:<br>-b : (2*a)</a><br>
+    <a data-custom="BoldFont">3. D > 0</a><br>
+    <a>Если дескриминант положительный, то уравнение имеет два корня, которые вычисляются по формуле<br>x = (-b ± √D) : (2*a)</a><br><br>
+    <a data-custom="BoldFont">Заключение</a><br>
+    <a>Решение квадратных уравнений является важным и полезным навыком в математике, который находит широкое применение в различных областях науки и техники.</a>
+
 </body>
+
+</html>
